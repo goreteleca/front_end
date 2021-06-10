@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+ 
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+ 
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+ 
+    <link rel="stylesheet" type="text/css" href="aula1.css" />
+  </head>
+ 
+  <body>
+    <div id="app">
+      <!-- <p>{{title}}</p>
+      <input v-model="message" placeholder="edit me" />
+      <p>Message is: {{ message }}</p>
+      <h3>Lista de Tarefas</h3>
+      <input v-model="novatarefa" placeholder="Insira a nova tarefa">
+      <button @click="tarefas.push(novatarefa)">Inserir</button>
+      <ul>
+        <li v-for="tarefa in tarefas">
+          {{tarefa}}
+        </li>
+      </ul> -->
+ 
+      <form id="main">
+        <h3>Lista de produtos</h3>
+        <ul>
+          <li
+            v-for="produto in produtos"
+            v-on:click="colocarativo(produto)"
+            v-bind:class="{'active':produto.active}"
+          >
+            <span v-if="produto.valor===0"> Sem produto </span>
+            {{produto.nome}} {{produto.valor}}
+          </li>
+        </ul>
+        <div id="total" class="total">Valor total
+          <span>{{total()}}</span>
+        </div>
+      </form>
+    </div>
+  </body>
+ 
+  <script>
+    const app = new Vue({
+      el: "#app",
+      data: {
+        title: "hello world",
+        tarefa: "",
+        tarefas: ["ler um livro"],
+        produtos: [
+          { nome: "agua", valor: 1, active: false },
+          { nome: "queijo", valor: 5, active: false },
+          { nome: "cafe", valor: 3, active: false },
+          { nome: "sabao", valor: 0, active: false },
+          { nome: "sumo", valor: 0, active: false },
+        ],
+      },
+      methods: {
+        colocarativo: function (produto) {
+          produto.active = !produto.active;
+        },
+        total: function() {
+          var soma = 0;
+          this.produtos.forEach(element => {
+            if (element.active) {
+              soma = soma + element.valor;
+            }
+          });
+          return soma;
+        }
+      },
+    });
+  </script>
+  <style>
+    @import url(https://fonts.googleapis.com/css?family=Cookie);
+
+/* Hide un-compiled mustache bindings
+until the Vue instance is ready */
+
+[v-cloak] {
+  display: none;
+}
+
+*{
+        margin:0;
+        padding:0;
+}
+
+body{
+        font:15px/1.3 'Open Sans', sans-serif;
+        color: #5e5b64;
+        text-align:center;
+}
+
+a, a:visited {
+        outline:none;
+        color:#389dc1;
+}
+
+a:hover{
+        text-decoration:none;
+}
+
+section, footer, header, aside, nav{
+        display: block;
+}
+
+/*-------------------------
+        The order form
+--------------------------*/
+
+form{
+        background-color: #61a1bc;
+        border-radius: 2px;
+        box-shadow: 0 1px 1px #ccc;
+        width: 400px;
+        padding: 35px 60px;
+        margin: 50px auto;
+}
+
+form h1{
+        color:#fff;
+        font-size:64px;
+        font-family:'Cookie', cursive;
+        font-weight: normal;
+        line-height:1;
+        text-shadow:0 3px 0 rgba(0,0,0,0.1);
+}
+
+form ul{
+        list-style:none;
+        color:#fff;
+        font-size:20px;
+        font-weight:bold;
+        text-align: left;
+        margin:20px 0 15px;
+}
+
+form ul li{
+        padding:20px 30px;
+        background-color:#e35885;
+        margin-bottom:8px;
+        box-shadow:0 1px 1px rgba(0,0,0,0.1);
+        cursor:pointer;
+}
+
+form ul li span{
+        float:right;
+}
+
+form ul li.active{
+        background-color:#8ec16d;
+}
+
+div.total{
+        border-top:1px solid rgba(255,255,255,0.5);
+        padding:15px 30px;
+        font-size:20px;
+        font-weight:bold;
+        text-align: left;
+        color:#fff;
+}
+
+div.total span{
+        float:right;
+}
+  </style>
+</html>

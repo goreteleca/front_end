@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Monster Slayer</title>
+    <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="foundation.min.css">
+    <link rel="stylesheet" href="app.css">
+</head>
+
+<body>
+    <div id="app">
+        <section class="row">
+            <div class="small-6 columns">
+                <h1 class="text-center">YOU</h1>
+                <div class="healthbar">
+                    <div class="healthbar text-center"
+                    style="background-color: green; margin: 0; color: white;" 
+                    :style="{width:playerHealth+'%'}">
+                    </div>
+                </div>
+            </div>
+            <div class="small-6 columns">
+                <h1 class="text-center">MONSTER</h1>
+                <div class="healthbar">
+                    <div class="healthbar text-center"
+                    style="background-color: green; margin: 0; color: white;"
+                    :style="{width:monsterHealth+'%'}">
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="row controls" v-if="!startGame">
+            <div class="small-12 columns">
+                <button id="start-game" @click="comecarJogo()">START NEW GAME</button>
+            </div>
+        </section>
+        <section class="row controls">
+            <div class="small-12 columns">
+                <button id="attack" @click="ataque()">ATTACK</button>
+                <button id="special-attack" @click="specialAttack()">SPECIAL ATTACK</button>
+                <button id="heal" @click="heal()">HEAL</button>
+                <button id="give-up" @click="giveup">GIVE UP</button>
+            </div>
+        </section>
+        <section class="row log" v-if="historico.lenght>0">
+            <div class="small-12 columns">
+                <ul>
+                    <li v-for="historico in historicos">
+                        {{historico.texto}}
+
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+</body>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            playerHealth: 100,
+            monsterHealth: 100,
+            startGame: false,
+            historico: [],
+
+        },
+        methods: {
+            comecarJogo: function(){
+                this.startGame = true;
+                this.playerHealth = 100;
+                this.monsterHealth = 100;
+
+            },
+            verificaVida: function(playerHealth,monsterHealth){
+                if (playerHealth<=0){
+                    alert("monstro ganhou");
+                    this.startGame = false;
+                    window.location.reload();
+                }
+                else if (monsterHealth<=0){
+                    alert("player ganhou");
+                    this.startGame = false;
+                    window.location.reload();
+                }
+            },
+            ataque: function(){
+                var max = 25;
+                var min = 1;
+                var dano = Math.max(Math.floor(Math.random() * max) + 1, min);
+                this.playerHealth = this.playerHealth - dano;
+
+                var maxMonstro = 30;
+                var minMonstro = 1;
+                
+                var danoMonstro = Math.max(Math.floor(Math.random() * maxMonstro) + 1, minMonstro);
+                this.monsterHealth = this.monsterHealth - danoMonstro;
+                this.verificaVida(this.playerHealth,this.monsterHealth);
+                this.historico.unshift({
+                    texto: "o mostro deu ${dano} no player"
+                });
+            },
+            
+            specialAttack: function (){
+
+                var maxMonstro = 40;
+                var minMonstro = 1;
+                
+                var danoMonstro = Math.max(Math.floor(Math.random() * maxMonstro) + 1, minMonstro);
+                this.monsterHealth = this.monsterHealth - danoMonstro;
+
+                console.log(this.monsterHealth)
+                consol.log(this.playerHealth)
+
+            },
+
+            heal: function (){
+
+                var healing = 20;
+                
+
+                if (this.playerHealth+healing>=100){
+                    this.playerHealth=100;
+                }
+                else {
+                    this.playerHealth = this.playerHealth + healing;
+                }
+            },
+            giveup: function (){
+                var max = 50;
+                var min = 4;
+                var dano = Math.max(Math.floor(Math.random() * max) + 1, min);
+                this.playerHealth = this.playerHealth - dano;
+
+            },
+
+
+        },
+    })
+</script>
+
+</html>
